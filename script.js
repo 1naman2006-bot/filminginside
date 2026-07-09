@@ -33,10 +33,30 @@ const pricing = [
   ["Custom Quote","Brief based","Events, shoots, launches, websites, AI commercials"]
 ];
 const faqs = [
-  ["Can the admin update the website without HTML edits?","Yes. Projects, media, blogs, reviews, services, pricing, FAQs, hero settings, and owner profile are designed to publish from Supabase tables."],
-  ["Do videos play inside the website?","Yes. Portfolio and AI demos use native video playback with Cloudinary streaming URLs and lazy loading."],
-  ["Can Instagram and YouTube be automated?","Yes. Make.com or Zapier can upload Instagram media to Cloudinary and insert portfolio rows. YouTube uploads can be fetched from the API and displayed with an embedded player."],
-  ["Is there a direct call section?","No. The contact experience uses WhatsApp, email, social links, a form, and a Google Maps placeholder."]
+  [
+    "How much does a commercial shoot cost?",
+    "Our commercial shoots are customized based on concept, crew, locations, and deliverables. Contact us for a tailored quotation."
+  ],
+  [
+    "How long does editing take?",
+    "Most projects are delivered within 3–7 working days. Larger productions may require additional time depending on complexity."
+  ],
+  [
+    "Do you travel outside the city?",
+    "Yes. We provide photography and video production services across India. Travel arrangements are discussed during booking."
+  ],
+  [
+    "Can you create AI ads?",
+    "Absolutely. We create AI-powered commercials, product videos, fashion campaigns, talking avatars, voiceovers, and social media ads."
+  ],
+  [
+    "Do you provide drone shoots?",
+    "Yes. Drone cinematography is available wherever local regulations and permissions allow."
+  ],
+  [
+    "How can I book a shoot?",
+    "You can contact us through WhatsApp, phone, email, or the contact form on our website. We'll discuss your requirements and schedule the shoot."
+  ]
 ];
 const blogs = [
   {title:"How AI videos can speed up campaign testing",category:"AI Studio",date:"2026-07-06",description:"A practical way to use AI commercials and product videos without losing brand taste."},
