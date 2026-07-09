@@ -104,7 +104,7 @@ function renderStatic(){
   whyGrid.innerHTML=why.map(x=>`<article class="why-card"><i class="fa-solid ${x[1]}"></i><h3>${x[0]}</h3><p>Premium execution designed around clear briefs, fast feedback, and measurable business outcomes.</p></article>`).join("");
   pricingGrid.innerHTML=pricing.map((p,i)=>`<article class="price-card ${i===1?"featured":""}">${i===1?'<span class="badge">Popular</span>':""}<h3>${p[0]}</h3><p class="price">${p[1]}<span>${i<3?"/month":""}</span></p><ul>${p[2].split(", ").map(f=>`<li>${f}</li>`).join("")}</ul><a class="btn ${i===1?"btn-primary":"btn-ghost"}" href="https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent("I want the "+p[0]+" package")}">WhatsApp Quote</a></article>`).join("");
   faqList.innerHTML=faqs.map(f=>`<article><button type="button"><span>${f[0]}</span><i class="fa-solid fa-plus"></i></button><div><p>${f[1]}</p></div></article>`).join("");
-  blogGrid.innerHTML=blogs.map(renderBlog).join("");
+  //
   reviewWrapper.innerHTML=reviews.map(r=>`<article class="swiper-slide review-card"><img src="${r.photo_url}" alt="${esc(r.name)}" loading="lazy"><div>${r.logo_url?`<img class="company-logo" src="${r.logo_url}" alt="${esc(r.name)} company logo">`:""}<span class="stars">${"★".repeat(r.rating||5)}</span><p>“${esc(r.review)}”</p><strong>${esc(r.name)}</strong><small>${esc(r.designation)}</small></div></article>`).join("");
   if(window.Swiper)new Swiper(".reviewSwiper",{loop:true,spaceBetween:16,autoplay:{delay:3600,disableOnInteraction:false},pagination:{el:".swiper-pagination",clickable:true},breakpoints:{820:{slidesPerView:2}}});
   setupFAQ(); setupBA(); delegateVideoButtons();
