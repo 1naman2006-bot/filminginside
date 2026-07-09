@@ -105,6 +105,11 @@ function renderStatic(){
   pricingGrid.innerHTML=pricing.map((p,i)=>`<article class="price-card ${i===1?"featured":""}">${i===1?'<span class="badge">Popular</span>':""}<h3>${p[0]}</h3><p class="price">${p[1]}<span>${i<3?"/month":""}</span></p><ul>${p[2].split(", ").map(f=>`<li>${f}</li>`).join("")}</ul><a class="btn ${i===1?"btn-primary":"btn-ghost"}" href="https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent("I want the "+p[0]+" package")}">WhatsApp Quote</a></article>`).join("");
   faqList.innerHTML=faqs.map(f=>`<article><button type="button"><span>${f[0]}</span><i class="fa-solid fa-plus"></i></button><div><p>${f[1]}</p></div></article>`).join("");
   //
+  const blogGrid = document.getElementById("blogGrid");
+
+if (blogGrid) {
+    blogGrid.innerHTML = blogs.map(renderBlog).join("");
+}
   reviewWrapper.innerHTML=reviews.map(r=>`<article class="swiper-slide review-card"><img src="${r.photo_url}" alt="${esc(r.name)}" loading="lazy"><div>${r.logo_url?`<img class="company-logo" src="${r.logo_url}" alt="${esc(r.name)} company logo">`:""}<span class="stars">${"★".repeat(r.rating||5)}</span><p>“${esc(r.review)}”</p><strong>${esc(r.name)}</strong><small>${esc(r.designation)}</small></div></article>`).join("");
   if(window.Swiper)new Swiper(".reviewSwiper",{loop:true,spaceBetween:16,autoplay:{delay:3600,disableOnInteraction:false},pagination:{el:".swiper-pagination",clickable:true},breakpoints:{820:{slidesPerView:2}}});
   setupFAQ(); setupBA(); delegateVideoButtons();
@@ -127,5 +132,67 @@ function renderFeeds(){instagramGrid.innerHTML=fallbackPortfolio.slice(0,6).map(
 function delegateVideoButtons(){document.querySelectorAll("[data-video]").forEach(b=>{b.onclick=()=>openVideo(b.dataset.video,b.dataset.title)})}
 function openVideo(src,title){modalVideo.src=src;modalVideo.setAttribute("aria-label",title||"Video");videoModal.classList.add("open");videoModal.setAttribute("aria-hidden","false");modalVideo.play().catch(()=>{})}
 function setupFAQ(){faqList.querySelectorAll("button").forEach(btn=>btn.addEventListener("click",()=>{const panel=btn.nextElementSibling;const open=panel.style.height&&panel.style.height!=="0px";faqList.querySelectorAll("article div").forEach(x=>gsap?gsap.to(x,{height:0,duration:.25}):x.style.height=0);faqList.querySelectorAll("i").forEach(i=>i.className="fa-solid fa-plus");if(!open){if(window.gsap)gsap.to(panel,{height:panel.scrollHeight,duration:.28});else panel.style.height=panel.scrollHeight+"px";btn.querySelector("i").className="fa-solid fa-minus"}}))}
-function initForms(){contactForm?.addEventListener("submit",async e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.currentTarget));if(data.website)return;formStatus.textContent="Preparing WhatsApp...";if(db)await db.from("leads").insert([{...data,source:"website"}]);window.open(`https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent(`New enquiry from ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone||"-"}\nProject: ${data.message}`)}`,"_blank","noopener");e.currentTarget.reset();formStatus.textContent="Message prepared. We will reply shortly."});newsletterForm?.addEventListener("submit",async e=>{e.preventDefault();const email=new FormData(e.currentTarget).get("email");if(db)await db.from("newsletter").insert([{email}]);e.currentTarget.reset()});blogSearch?.addEventListener("input",()=>{const q=blogSearch.value.toLowerCase();blogGrid.innerHTML=blogs.filter(b=>`${b.title} ${b.category} ${b.description}`.toLowerCase().includes(q)).map(renderBlog).join("")})}
+function initForms(){
+
+    const blogGrid = document.getElementById("blogGrid");
+    const blogSearch = document.getElementById("blogSearch");
+
+    contactForm?.addEventListener("submit", async e => {
+        e.preventDefault();
+
+        const data = Object.fromEntries(new FormData(e.currentTarget));
+
+        if(data.website) return;
+
+        formStatus.textContent = "Preparing WhatsApp...";
+
+        if(db){
+            await db.from("leads").insert([{...data, source:"website"}]);
+        }
+
+        window.open(
+            `https://wa.me/${cfg.whatsappNumber}?text=${encodeURIComponent(
+                `New enquiry from ${data.name}
+Email: ${data.email}
+Phone: ${data.phone || "-"}
+Project: ${data.message}`
+            )}`,
+            "_blank",
+            "noopener"
+        );
+
+        e.currentTarget.reset();
+
+        formStatus.textContent = "Message prepared. We will reply shortly.";
+    });
+
+    newsletterForm?.addEventListener("submit", async e => {
+        e.preventDefault();
+
+        const email = new FormData(e.currentTarget).get("email");
+
+        if(db){
+            await db.from("newsletter").insert([{email}]);
+        }
+
+        e.currentTarget.reset();
+    });
+
+    blogSearch?.addEventListener("input", () => {
+
+        if(!blogGrid) return;
+
+        const q = blogSearch.value.toLowerCase();
+
+        blogGrid.innerHTML = blogs
+            .filter(b =>
+                `${b.title} ${b.category} ${b.description}`
+                .toLowerCase()
+                .includes(q)
+            )
+            .map(renderBlog)
+            .join("");
+    });
+
+}
 function initSearch(){openSearch?.addEventListener("click",()=>{searchModal.classList.add("open");setTimeout(()=>globalSearchInput.focus(),40)});globalSearchInput?.addEventListener("input",()=>{const q=globalSearchInput.value.toLowerCase();const rows=[...portfolio.map(p=>({type:"Project",label:p.title,id:p.id})),...services.map(s=>({type:"Service",label:s.title,hash:"services"})),...blogs.map(b=>({type:"Blog",label:b.title,hash:"blog"}))].filter(x=>x.label.toLowerCase().includes(q)).slice(0,12);globalSearchResults.innerHTML=rows.map(r=>`<button data-id="${r.id||""}" data-hash="${r.hash||""}"><span class="meta">${r.type}</span><br>${esc(r.label)}</button>`).join("")});globalSearchResults?.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;searchModal.classList.remove("open");if(b.dataset.id)openCase(b.dataset.id);else location.hash=b.dataset.hash})}
