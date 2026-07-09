@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FILMING INSIDE Admin Dashboard</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+  </head>
+  <body class="admin-body">
+    <section class="login-screen" id="loginScreen">
+      <form class="glass login-card" id="loginForm">
+        <a class="logo" href="index.html"><img class="site-logo admin-login-logo" src="assets/logo-white.png" alt="FILMING INSIDE"></a>
+        <h1>Admin Login</h1>
+        <label>Email<input class="admin-input" type="email" name="email" autocomplete="email" required></label>
+        <label>Password<input class="admin-input" type="password" name="password" autocomplete="current-password" required></label>
+        <label><input type="checkbox" name="remember"> Remember Me</label>
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-lock"></i>Secure Login</button>
+        <button class="btn btn-ghost" type="button" id="forgotPassword">Forgot Password</button>
+        <p class="form-status" id="loginStatus">Use Supabase Auth keys in supabase.js. Without keys, demo mode opens locally.</p>
+      </form>
+    </section>
+
+    <div class="admin-layout hidden" id="dashboard">
+      <aside class="admin-sidebar">
+        <a class="logo" href="index.html"><img class="site-logo admin-sidebar-logo" src="assets/logo-white.png" alt="FILMING INSIDE Admin"></a>
+        <nav id="adminNav">
+          <button class="active" data-view="home"><i class="fa-solid fa-grid-2"></i> Dashboard</button>
+          <button data-view="media"><i class="fa-solid fa-photo-film"></i> Media Library</button>
+          <button data-view="portfolio"><i class="fa-solid fa-briefcase"></i> Portfolio Manager</button>
+          <button data-view="ai"><i class="fa-solid fa-microchip"></i> AI Projects</button>
+          <button data-view="blog"><i class="fa-solid fa-pen"></i> Blog Manager</button>
+          <button data-view="reviews"><i class="fa-solid fa-star"></i> Client Reviews</button>
+          <button data-view="content"><i class="fa-solid fa-sliders"></i> Website Settings</button>
+          <button data-view="leads"><i class="fa-solid fa-inbox"></i> Contact Manager</button>
+          <button data-view="automation"><i class="fa-solid fa-arrows-rotate"></i> Automation</button>
+          <button data-view="backup"><i class="fa-solid fa-database"></i> Backup</button>
+          <button data-view="preview"><i class="fa-solid fa-display"></i> Live Preview</button>
+          <a href="index.html"><i class="fa-solid fa-arrow-up-right-from-square"></i> Website</a>
+          <button id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </nav>
+      </aside>
+      <main class="admin-main">
+        <header class="admin-top">
+          <div><p class="eyebrow">Premium Admin Dashboard</p><h1 id="viewTitle">Dashboard</h1></div>
+          <div class="admin-actions">
+            <button class="btn btn-primary" data-quick="portfolio"><i class="fa-solid fa-plus"></i>Add Portfolio</button>
+            <button class="btn btn-ghost" data-quick="media"><i class="fa-solid fa-upload"></i>Upload Video</button>
+            <button class="btn btn-ghost" data-quick="ai"><i class="fa-solid fa-microchip"></i>Upload AI Video</button>
+            <button class="btn btn-ghost" id="publishWebsite"><i class="fa-solid fa-paper-plane"></i>Publish Website</button>
+          </div>
+        </header>
+        <section id="adminView"></section>
+      </main>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <script src="admin.js" defer></script>
+  </body>
+</html>
