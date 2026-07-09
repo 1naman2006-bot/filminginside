@@ -72,8 +72,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function initChrome(){
   window.addEventListener("load",()=>setTimeout(()=>document.querySelector(".loader")?.classList.add("hidden"),450));
-  const toggle=document.querySelector(".nav-toggle"), nav=document.querySelector(".nav-links");
-  toggle?.addEventListener("click",()=>{const open=nav.classList.toggle("open");toggle.setAttribute("aria-expanded",open);toggle.innerHTML=open?'<i class="fa-solid fa-xmark"></i>':'<i class="fa-solid fa-bars"></i>';});
+ const toggle = document.querySelector(".nav-toggle");
+const nav = document.querySelector(".nav-links");
+
+toggle?.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", open);
+    toggle.innerHTML = open
+        ? '<i class="fa-solid fa-xmark"></i>'
+        : '<i class="fa-solid fa-bars"></i>';
+});
   nav?.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
   document.addEventListener("click",e=>{["videoModal","caseModal","searchModal"].forEach(id=>{const m=document.getElementById(id);if(!m?.classList.contains("open"))return;if(e.target===m||e.target.closest(`#${id} .modal-close`)){if(id==="videoModal"){modalVideo.pause();modalVideo.removeAttribute("src")}m.classList.remove("open");m.setAttribute("aria-hidden","true");}})});
 }
